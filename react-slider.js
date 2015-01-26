@@ -280,8 +280,8 @@
         var position = e['page' + self._axis()];
         self._start(i, position);
 
-        document.addEventListener('mousemove', self._dragMove, false);
-        document.addEventListener('mouseup', self._dragEnd, false);
+        //document.addEventListener('mousemove', self._dragMove, true);
+        //document.addEventListener('mouseup', self._dragEnd, true);
 
         pauseEvent(e);
       }
@@ -312,8 +312,10 @@
     },
 
     _dragEnd: function () {
-      document.removeEventListener('mousemove', this._dragMove, false);
-      document.removeEventListener('mouseup', this._dragEnd, false);
+      if (this.state.index === -1)
+        return;
+      //document.removeEventListener('mousemove', this._dragMove, true);
+      //document.removeEventListener('mouseup', this._dragEnd, true);
       this._end();
     },
 
@@ -332,6 +334,8 @@
     },
 
     _dragMove: function (e) {
+      if (this.state.index === -1)
+        return;
       var position = e['page' + this._axis()];
       this._move(this.state.index, position);
     },
@@ -526,7 +530,7 @@
       // Handle mouseDown events on the slider.
     _onSliderMouseDown: function (e) {
       if (this.props.disabled) return;
-      console.log('_onSliderTouchStart');
+      console.log('_onSliderMouseDown');
       var position = e['page' + this._axis()];
 
       this._forceValueFromPosition(position, function (i) {
@@ -537,8 +541,8 @@
 
         this._start(i, position);
 
-        document.addEventListener('mousemove', this._dragMove, false);
-        document.addEventListener('mouseup', this._dragEnd, false);
+        //document.addEventListener('mousemove', this._dragMove, false);
+        //document.addEventListener('mouseup', this._dragEnd, false);
       }.bind(this));
       pauseEvent(e);
     },
@@ -557,8 +561,8 @@
 
         this._start(i, position);
 
-        document.addEventListener('touchmove', this._touchMove, false);
-        document.addEventListener('touchend', this._onTouchEnd, false);
+        //document.addEventListener('touchmove', this._touchMove, false);
+        //document.addEventListener('touchend', this._onTouchEnd, false);
       }.bind(this));
       pauseEvent(e);
     },
@@ -576,7 +580,12 @@
             style: {position: 'relative'},
             className: this.props.className,
             onMouseDown: this._onSliderMouseDown,
-            onTouchStart: this._onSliderTouchStart
+            onMouseMoveCapture: this._dragMove,
+            onMouseUpCapture: this._dragEnd,
+            onTouchStart: this._onSliderTouchStart,
+            onTouchMove: this._onTouchMove,
+            onTouchEnd: this._onTouchEnd
+
           },
           bars,
           handles
