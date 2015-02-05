@@ -1,6 +1,6 @@
 {
   "name": "react-slider",
-  "version": "0.3.2",
+  "version": "0.3.2-git",
   "description": "Slider component for React",
   "main": "react-slider.js",
   "scripts": {
@@ -17,12 +17,17 @@
     "component"
   ],
   "author": "Michał Powaga <michalpowaga13@gmail.com>",
-  "contributors": [{
-    "name": "Florian Klampfer",
-    "email": "f.klampfer@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Florian Klampfer",
+      "email": "f.klampfer@gmail.com"
+    }
+  ],
   "license": "MIT",
   "devDependencies": {
     "react": "^0.12.1"
+  },
+  "dependencies": {
+    "react-component-resizable": "^0.2.2"
   }
 }

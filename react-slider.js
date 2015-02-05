@@ -7,6 +7,7 @@
     root.ReactSlider = factory(root.React);
   }
 }(this, function (React) {
+  var Resizable = require('react-component-resizable');
 
   /**
    * To prevent text selection while dragging.
@@ -174,7 +175,7 @@
     },
 
     componentDidMount: function () {
-      window.addEventListener('resize', this._handleResize);
+      //window.addEventListener('resize', this._handleResize);
       this._handleResize();
 
       var value = map(this.state.value, this._trimAlignValue);
@@ -182,7 +183,7 @@
     },
 
     componentWillUnmount: function () {
-      window.removeEventListener('resize', this._handleResize);
+      //window.removeEventListener('resize', this._handleResize);
     },
 
     getValue: function () {
@@ -211,12 +212,16 @@
     // calculates the offset of a handle in pixels based on its value.
     _calcOffset: function (value) {
       var ratio = (value - this.props.min) / (this.props.max - this.props.min);
+      if (!isFinite(ratio))
+        ratio = 0;
       return ratio * this.state.upperBound;
     },
 
     // Calculates the value corresponding to a given pixel offset, i.e. the inverse of `_calcOffset`.
     _calcValue: function (offset) {
       var ratio = offset / this.state.upperBound;
+      if (!isFinite(ratio))
+        ratio = 0;
       return ratio * (this.props.max - this.props.min) + this.props.min;
     },
 
@@ -575,7 +580,7 @@
       var handles = this._renderHandles(offset);
 
       return (
-        React.createElement('div', {
+        React.createElement(Resizable, {
             ref: 'slider',
             style: {position: 'relative'},
             className: this.props.className,
@@ -584,8 +589,8 @@
             onMouseUpCapture: this._dragEnd,
             onTouchStart: this._onSliderTouchStart,
             onTouchMove: this._onTouchMove,
-            onTouchEnd: this._onTouchEnd
-
+            onTouchEnd: this._onTouchEnd,
+            onResize: this._handleResize
           },
           bars,
           handles
