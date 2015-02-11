@@ -7,8 +7,6 @@
     root.ReactSlider = factory(root.React);
   }
 }(this, function (React) {
-  var Resizable = require('react-component-resizable');
-
   /**
    * To prevent text selection while dragging.
    * http://stackoverflow.com/questions/5429827/how-can-i-prevent-text-element-selection-with-cursor-drag
@@ -175,7 +173,9 @@
     },
 
     componentDidMount: function () {
-      //window.addEventListener('resize', this._handleResize);
+      require('javascript-detect-element-resize');
+      window.addResizeListener(this.getDOMNode(), this._handleResize);
+      window.addEventListener('resize', this._handleResize);
       this._handleResize();
 
       var value = map(this.state.value, this._trimAlignValue);
@@ -183,7 +183,8 @@
     },
 
     componentWillUnmount: function () {
-      //window.removeEventListener('resize', this._handleResize);
+      window.removeResizeListener(this.getDOMNode(), this._handleResize);
+      window.removeEventListener('resize', this._handleResize);
     },
 
     getValue: function () {
@@ -580,7 +581,7 @@
       var handles = this._renderHandles(offset);
 
       return (
-        React.createElement(Resizable, {
+        React.createElement('div', {
             ref: 'slider',
             style: {position: 'relative'},
             className: this.props.className,

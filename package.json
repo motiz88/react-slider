@@ -1,6 +1,6 @@
 {
   "name": "react-slider",
-  "version": "0.3.2-git",
+  "version": "0.3.3-git",
   "description": "Slider component for React",
   "main": "react-slider.js",
   "scripts": {
@@ -28,6 +28,6 @@
     "react": "^0.12.1"
   },
   "dependencies": {
-    "react-component-resizable": "^0.2.2"
+    "javascript-detect-element-resize": "git://github.com/sdecima/javascript-detect-element-resize"
   }
 }
